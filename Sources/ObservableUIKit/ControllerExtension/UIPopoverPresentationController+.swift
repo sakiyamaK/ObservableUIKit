@@ -3,9 +3,9 @@
 
 import UIKit.UIPopoverController
 
-public extension UIPopoverController {
+public extension UIPopoverPresentationController {
     
-    typealias C = UIPopoverController
+    typealias C = UIPopoverPresentationController
 
     @discardableResult
     func observation<T>(

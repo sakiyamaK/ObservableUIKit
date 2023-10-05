@@ -1,5 +1,6 @@
 Pod::Spec.new do |spec|
-  spec.name         = 'ObservableUIKit'
+  spec.name         = 'sakiyamaK/ObservableUIKit'
+  spec.module_name = "ObservableUIKit"
   spec.version      = '0.0.1'
   spec.summary      = <<-DESC
   Library for writing UIKit parameter Observablely.

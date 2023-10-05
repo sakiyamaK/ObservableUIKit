@@ -5,7 +5,7 @@
 [![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat-square)](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat-square)
 [![Twitter](https://img.shields.io/badge/twitter-@sakiyamaK-blue.svg?style=flat-square)](https://twitter.com/sakiyamaK)
 
-UIKitのパラメータをObservation frameworkに対応させたいライブラリです
+UIKitのパラメータをObservation frameworkに対応させたライブラリです
 
 Library to support Observation framework for UIKit parameters.
 
@@ -35,35 +35,10 @@ class ViewController: UIViewController {
         update()
     }
 
-    func layout() {
-        let testView = UIView(frame: .zero)
-        
-        self.view.addSubview(testView)
-        
-        testView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            testView.widthAnchor.constraint(equalToConstant: 100),
-            testView.heightAnchor.constraint(equalToConstant: 100),
-            testView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            testView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-        ])
-
-        let testLabel = UILabel(frame: .zero)
-        
-        self.view.addSubview(testLabel)
-        
-        testLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            testLabel.heightAnchor.constraint(equalToConstant: 100),
-            testLabel.centerXAnchor.constraint(equalTo: testView.centerXAnchor),
-            testLabel.topAnchor.constraint(equalTo: testView.bottomAnchor, constant: 20)
-        ])
-    }
-    
     func track() {
         
         let testView: UIView = self.view.subviews.first!
-        let testLabel: UILabel = self.view.subviews.first(where: { $0 is UILabel}) as! UILabel
+        let testLabel: UILabel = self.view.subviews.first(where: { $0 is UILabel }) as! UILabel
 
         // UIViewの各パラメータを監視
         testView.observation(keyPath: \.backgroundColor) { [weak self] in
@@ -108,8 +83,32 @@ class ViewController: UIViewController {
             testData.title = "change 4"
 
         }
-
     }
+
+    func layout() {
+        let testView = UIView(frame: .zero)
+        
+        self.view.addSubview(testView)
+        
+        testView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            testView.widthAnchor.constraint(equalToConstant: 100),
+            testView.heightAnchor.constraint(equalToConstant: 100),
+            testView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            testView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        ])
+
+        let testLabel = UILabel(frame: .zero)
+        
+        self.view.addSubview(testLabel)
+        
+        testLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            testLabel.heightAnchor.constraint(equalToConstant: 100),
+            testLabel.centerXAnchor.constraint(equalTo: testView.centerXAnchor),
+            testLabel.topAnchor.constraint(equalTo: testView.bottomAnchor, constant: 20)
+        ])
+    }    
 }
 
 
@@ -127,7 +126,7 @@ Once you have your Swift package set up, adding ObservableUIKit as a dependency 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/sakiyamaK/ObservableUIKit", .upToNextMajor(from: "0.2"))
+    .package(url: "https://github.com/sakiyamaK/ObservableUIKit", .upToNextMajor(from: "0.0.3"))
 ]
 ```
 

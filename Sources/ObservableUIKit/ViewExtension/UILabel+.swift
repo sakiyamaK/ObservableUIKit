@@ -29,7 +29,7 @@ public extension UILabel {
                     keyPath: keyPath,
                     tracking: tracking,
                     shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
+                    useInitialValue: false
                 )
             }
         })
@@ -61,7 +61,7 @@ public extension UILabel {
                     keyPath: keyPath,
                     tracking: tracking,
                     shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
+                    useInitialValue: false
                 )
             }
         })
@@ -95,7 +95,7 @@ public extension UILabel {
                     tracking: tracking,
                     onChange: onChange,
                     shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
+                    useInitialValue: false
                 )
             }
         })
@@ -129,7 +129,7 @@ public extension UILabel {
                     tracking: tracking,
                     onChange: onChange,
                     shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
+                    useInitialValue: false
                 )
             }
         })

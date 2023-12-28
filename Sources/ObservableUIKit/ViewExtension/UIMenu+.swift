@@ -32,7 +32,7 @@ public extension UIMenu {
                     keyPath: keyPath,
                     tracking: tracking,
                     shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
+                    useInitialValue: false
                 )
             }
         })
@@ -64,7 +64,7 @@ public extension UIMenu {
                     keyPath: keyPath,
                     tracking: tracking,
                     shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
+                    useInitialValue: false
                 )
             }
         })
@@ -98,7 +98,7 @@ public extension UIMenu {
                     tracking: tracking,
                     onChange: onChange,
                     shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
+                    useInitialValue: false
                 )
             }
         })
@@ -132,7 +132,7 @@ public extension UIMenu {
                     tracking: tracking,
                     onChange: onChange,
                     shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
+                    useInitialValue: false
                 )
             }
         })

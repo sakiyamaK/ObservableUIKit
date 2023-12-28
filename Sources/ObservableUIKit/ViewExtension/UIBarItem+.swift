@@ -36,7 +36,7 @@ public extension UIBarItem {
                     keyPath: keyPath,
                     tracking: tracking,
                     shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
+                    useInitialValue: false
                 )
             }
         })
@@ -68,7 +68,7 @@ public extension UIBarItem {
                     keyPath: keyPath,
                     tracking: tracking,
                     shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
+                    useInitialValue: false
                 )
             }
         })
@@ -102,7 +102,7 @@ public extension UIBarItem {
                     tracking: tracking,
                     onChange: onChange,
                     shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
+                    useInitialValue: false
                 )
             }
         })
@@ -136,7 +136,7 @@ public extension UIBarItem {
                     tracking: tracking,
                     onChange: onChange,
                     shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
+                    useInitialValue: false
                 )
             }
         })

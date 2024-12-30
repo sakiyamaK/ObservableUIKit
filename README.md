@@ -17,11 +17,24 @@ import ObservableUIKit
 
 // 監視対象のデータ
 @Observable
-class TestData {
+@MainActor
+final class TestData {
     var color: UIColor = .green
     var rotate: CGFloat = 0
     var cornerRadius: CGFloat = 0
     var title: String?
+    var loading: Bool = false
+    
+    func fetch() {
+        Task {
+            loading = true
+            // サブスレッドで2秒待つ
+            await Task {
+                try? await Task.sleep(for: .seconds(2))
+            }.value
+            loading = false
+        }
+    }
 }
 
 final class ViewController: UIViewController {
@@ -38,6 +51,13 @@ final class ViewController: UIViewController {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private let indicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.startAnimating()
+        return view
     }()
 
     init(testData: TestData) {
@@ -73,6 +93,12 @@ final class ViewController: UIViewController {
             testLabel.topAnchor.constraint(equalTo: testView.bottomAnchor, constant: 20)
         ])
 
+        self.view.addSubview(indicator)
+        NSLayoutConstraint.activate([
+            indicator.centerXAnchor.constraint(equalTo: testView.centerXAnchor),
+            indicator.topAnchor.constraint(equalTo: testLabel.bottomAnchor, constant: 20)
+        ])
+
         track()
         update()
     }
@@ -103,11 +129,26 @@ final class ViewController: UIViewController {
         }, onChange: { label, textColor in
             label.textColor = textColor
         })
+        
+        // UIActivityIndicatorのパラメータを監視
+        indicator.observation {[weak self] in
+            self!.testData.loading
+        } onChange: { indicator, loading in
+            if loading {
+                indicator.startAnimating()
+            } else {
+                indicator.stopAnimating()
+            }
+        }
+
     }
     
     // 監視対象のデータを更新
     func update() {
         Task {
+            
+            testData.fetch()
+
             try await Task.sleep(for: .seconds(1.0))
             testData.color = .red
             testData.title = "change 1"
@@ -128,12 +169,9 @@ final class ViewController: UIViewController {
             testData.color = .red
             testData.cornerRadius = 50
             testData.title = "change 4"
-
         }
-
     }
 }
-
 
 ```
 

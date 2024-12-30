@@ -5,56 +5,49 @@
 //  Created by sakiyamaK on 2024/12/27.
 //
 
-import Foundation
+import UIKit
 
-public protocol ObservableNSObject {}
-public extension ObservableNSObject {
+public protocol ObservableUIKit: AnyObject, Sendable {}
+public extension ObservableUIKit {
+    @MainActor
     @discardableResult
     func observation<T>(
-        tracking: @escaping (() -> T),
-        onChange: @escaping @Sendable ((Self, T) -> Void),
-        shouldStop: (@Sendable () -> Bool)? = nil,
+        tracking: @escaping @Sendable @MainActor () -> T,
+        onChange: @escaping (@Sendable @MainActor (Self, T) -> Void),
+        shouldStop: @escaping (@Sendable () -> Bool) = { false },
         useInitialValue: Bool = true,
         mainThread: Bool = true
     ) -> Self {
-        
-        @Sendable
-        func process() {
-            onChange(self, tracking())
-            
-            if let shouldStop, shouldStop() {
-                return
-            }
-            
-            self.observation(
-                tracking: tracking,
-                onChange: onChange,
-                shouldStop: shouldStop,
-                useInitialValue: useInitialValue,
-                mainThread: mainThread
-            )
-        }
-        
+                
         if useInitialValue {
             onChange(self, tracking())
         }
         
-        _ = withObservationTracking({
-            tracking()
-        }, onChange: {
-            process()
-            onChange(self, tracking())
-            if mainThread {
-                Task.detached { @MainActor in
-                    process()
+        _ = withObservationTracking(tracking, onChange: {[weak self] in
+            
+            guard let self else { return }
+
+            Task { @MainActor in
+                onChange(self, tracking())
+                
+                if shouldStop() {
+                    return
                 }
-            } else {
-                process()
+                
+                self.observation(
+                    tracking: tracking,
+                    onChange: onChange,
+                    shouldStop: shouldStop,
+                    useInitialValue: useInitialValue,
+                    mainThread: mainThread
+                )
             }
         })
         return self
     }
 }
 
-extension NSObject: ObservableNSObject {}
-
+extension UIView: @retroactive Sendable {}
+extension UIView: ObservableUIKit {}
+extension UIViewController: @retroactive Sendable {}
+extension UIViewController: ObservableUIKit {}

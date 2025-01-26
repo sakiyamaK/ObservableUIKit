@@ -11,7 +11,25 @@ Library to support Observation framework for UIKit parameters.
 
 
 ```swift
+testView.tracking {[weak self] in
+    self?.testData.cornerRadius
+} onChange: { view, cornerRadius in
+    view.layer.cornerRadius = cornerRadius
+}.tracking {[weak self] in
+    self?.testData.rotate
+} onChange: { view, angle in
+    view.transform = .init(rotationAngle: angle)
+}.trackingOptional {[weak self] in
+    self?.testData.color
+} onChange: { view, color in
+    view.backgroundColor = color
+}
+```
 
+
+## QUick Start
+
+```swift
 import UIKit
 import ObservableUIKit
 
@@ -38,8 +56,8 @@ final class TestData {
 }
 
 final class ViewController: UIViewController {
-    
-    private var testData: TestData!
+
+    private var testData: TestData
 
     private let testView: UIView = {
         let view = UIView(frame: .zero)
@@ -60,13 +78,13 @@ final class ViewController: UIViewController {
         return view
     }()
 
-    init(testData: TestData) {
-        super.init(nibName: nil, bundle: nil)
+    init(testData: TestData = TestData()) {
         self.testData = testData
+        super.init(nibName: nil, bundle: nil)
     }
     
     override private init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        fatalError()
     }
         
     required init?(coder: NSCoder) {
@@ -75,64 +93,42 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = .white
-        
-        self.view.addSubview(testView)
-        NSLayoutConstraint.activate([
-            testView.widthAnchor.constraint(equalToConstant: 100),
-            testView.heightAnchor.constraint(equalToConstant: 100),
-            testView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            testView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-        ])
-        
-        self.view.addSubview(testLabel)
-        NSLayoutConstraint.activate([
-            testLabel.heightAnchor.constraint(equalToConstant: 100),
-            testLabel.centerXAnchor.constraint(equalTo: testView.centerXAnchor),
-            testLabel.topAnchor.constraint(equalTo: testView.bottomAnchor, constant: 20)
-        ])
 
-        self.view.addSubview(indicator)
-        NSLayoutConstraint.activate([
-            indicator.centerXAnchor.constraint(equalTo: testView.centerXAnchor),
-            indicator.topAnchor.constraint(equalTo: testLabel.bottomAnchor, constant: 20)
-        ])
-
+        layout()
         track()
         update()
     }
-    
+
     func track() {
         // UIViewの各パラメータを監視
-        testView.observation(tracking: {[weak self] in
-            self!.testData.color
-        }, onChange: { view, color in
-            view.backgroundColor = color
-        }).observation(tracking: {[weak self] in
-            self!.testData.cornerRadius
-        }, onChange: { view, cornerRadius in
+        testView.tracking {[weak self] in
+            self?.testData.cornerRadius
+        } onChange: { view, cornerRadius in
             view.layer.cornerRadius = cornerRadius
-        }).observation(tracking: {[weak self] in
-            self!.testData.rotate
-        }, onChange: { view, angle in
+        }.tracking {[weak self] in
+            self?.testData.rotate
+        } onChange: { view, angle in
             view.transform = .init(rotationAngle: angle)
-        })
-        
+        }.trackingOptional {[weak self] in
+            self?.testData.color
+        } onChange: { view, color in
+            view.backgroundColor = color
+        }
+
         // UILabelの各パラメータを監視
-        testLabel.observation(tracking: {[weak self] in
-            self!.testData.title ?? "default"
-        }, onChange: { label, title in
+        testLabel.tracking {[weak self] in
+            self?.testData.title ?? "default"
+        } onChange: { label, title in
             label.text = title
-        }).observation(tracking: {[weak self] in
-            self!.testData.color
-        }, onChange: { label, textColor in
+        }.tracking {[weak self] in
+            self?.testData.color
+        } onChange: { label, textColor in
             label.textColor = textColor
-        })
-        
+        }
+
         // UIActivityIndicatorのパラメータを監視
-        indicator.observation {[weak self] in
-            self!.testData.loading
+        indicator.tracking {[weak self] in
+            self?.testData.loading
         } onChange: { indicator, loading in
             if loading {
                 indicator.startAnimating()
@@ -140,9 +136,8 @@ final class ViewController: UIViewController {
                 indicator.stopAnimating()
             }
         }
-
     }
-    
+
     // 監視対象のデータを更新
     func update() {
         Task {
@@ -172,6 +167,39 @@ final class ViewController: UIViewController {
         }
     }
 }
+
+extension ViewController {
+    func layout() {
+        self.view.backgroundColor = .systemBackground
+
+        self.view.addSubview(testView)
+        NSLayoutConstraint.activate([
+            testView.widthAnchor.constraint(equalToConstant: 100),
+            testView.heightAnchor.constraint(equalToConstant: 100),
+            testView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            testView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        ])
+
+        self.view.addSubview(testLabel)
+        NSLayoutConstraint.activate([
+            testLabel.heightAnchor.constraint(equalToConstant: 100),
+            testLabel.centerXAnchor.constraint(equalTo: testView.centerXAnchor),
+            testLabel.topAnchor.constraint(equalTo: testView.bottomAnchor, constant: 20)
+        ])
+
+        self.view.addSubview(indicator)
+        NSLayoutConstraint.activate([
+            indicator.centerXAnchor.constraint(equalTo: testView.centerXAnchor),
+            indicator.topAnchor.constraint(equalTo: testLabel.bottomAnchor, constant: 20)
+        ])
+    }
+
+}
+
+#Preview {
+    ViewController()
+}
+
 
 ```
 

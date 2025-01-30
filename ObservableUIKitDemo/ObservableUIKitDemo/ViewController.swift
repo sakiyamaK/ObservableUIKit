@@ -10,14 +10,14 @@ import ObservableUIKit
 
 // 監視対象のデータ
 @Observable
-@MainActor
 final class TestData {
     var color: UIColor = .green
     var rotate: CGFloat = 0
     var cornerRadius: CGFloat = 0
     var title: String?
     var loading: Bool = false
-    
+
+    @MainActor
     func fetch() {
         Task {
             loading = true

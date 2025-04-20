@@ -7,34 +7,21 @@
 
 import Foundation
 
+@propertyWrapper
 @Observable
 @MainActor
-public final class ObservableValue<Value> {
-    public var value: Value
-    init(value: Value) {
-        self.value = value
-    }
-}
-
-@propertyWrapper
-@MainActor
 public final class UIKitState<Value> {
-    public private(set) var projectedValue: ObservableValue<Value>!
-
+    public private(set) var value: Value
     public var wrappedValue: Value {
         get {
-            projectedValue.value
+            value
         }
         set {
-            projectedValue.value = newValue
+            value = newValue
         }
     }
 
     public init (wrappedValue: Value) {
-        projectedValue = .init(value: wrappedValue)
-    }
-
-    deinit {
-        projectedValue = nil
+        self.value = wrappedValue
     }
 }

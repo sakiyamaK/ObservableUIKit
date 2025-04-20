@@ -10,7 +10,7 @@ import Foundation
 @Observable
 @MainActor
 public final class ObservableValue<Value> {
-    var value: Value
+    public var value: Value
     init(value: Value) {
         self.value = value
     }

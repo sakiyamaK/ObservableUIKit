@@ -15,19 +15,6 @@ final class TestData {
     var rotate: CGFloat = 0
     var cornerRadius: CGFloat = 0
     var title: String?
-    var loading: Bool = false
-
-    @MainActor
-    func fetch() {
-        Task {
-            loading = true
-            // サブスレッドで2秒待つ
-            await Task {
-                try? await Task.sleep(for: .seconds(2))
-            }.value
-            loading = false
-        }
-    }
 }
 
 final class ViewController: UIViewController {
@@ -35,7 +22,10 @@ final class ViewController: UIViewController {
         print("deinit")
     }
 
+    // 監視対象のデータ
     private var testData: TestData
+    // 監視対象のプリミティブ型
+    @UIKitState private var isLoading: Bool = true
 
     private let testView: UIView = {
         let view = UIView(frame: .zero)
@@ -60,11 +50,7 @@ final class ViewController: UIViewController {
         self.testData = testData
         super.init(nibName: nil, bundle: nil)
     }
-    
-    override private init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        fatalError()
-    }
-        
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -106,7 +92,7 @@ final class ViewController: UIViewController {
 
         // UIActivityIndicatorのパラメータを監視
         indicator.tracking {[weak self] in
-            self?.testData.loading
+            self!.isLoading
         } onChange: { indicator, loading in
             if loading {
                 indicator.startAnimating()
@@ -119,8 +105,8 @@ final class ViewController: UIViewController {
     // 監視対象のデータを更新
     func update() {
         Task {
-            
-            testData.fetch()
+            try await Task.sleep(for: .seconds(2))
+            isLoading = false
 
             try await Task.sleep(for: .seconds(1.0))
             testData.color = .red
@@ -131,7 +117,7 @@ final class ViewController: UIViewController {
             testData.rotate = 10.0 * 180.0 / Double.pi
             testData.cornerRadius = 20
             testData.title = "change 2"
-            
+
             try await Task.sleep(for: .seconds(1.0))
             testData.color = .black
             testData.rotate = 20.0 * 180.0 / Double.pi

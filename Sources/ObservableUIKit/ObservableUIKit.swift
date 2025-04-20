@@ -36,7 +36,7 @@ public extension ObservableUIKit {
                 }
 
                 self.tracking(
-                    useInitialValue: useInitialValue,
+                    useInitialValue: false,
                     shouldStop: shouldStop,
                     apply,
                     onChange: onChange
@@ -72,7 +72,7 @@ public extension ObservableUIKit {
                 }
 
                 self.tracking(
-                    useInitialValue: useInitialValue,
+                    useInitialValue: false,
                     shouldStop: shouldStop,
                     apply,
                     onChange: onChange

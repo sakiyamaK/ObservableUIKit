@@ -3,34 +3,44 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B6CB13CE2ACE966D00F0D638 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CB13CD2ACE966D00F0D638 /* AppDelegate.swift */; };
-		B6CB13D02ACE966D00F0D638 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CB13CF2ACE966D00F0D638 /* SceneDelegate.swift */; };
-		B6CB13D22ACE966D00F0D638 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CB13D12ACE966D00F0D638 /* ViewController.swift */; };
-		B6CB13D72ACE966E00F0D638 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6CB13D62ACE966E00F0D638 /* Assets.xcassets */; };
-		B6CB13DA2ACE966E00F0D638 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6CB13D82ACE966E00F0D638 /* LaunchScreen.storyboard */; };
+		B6850CDC2DB443FE0081097F /* ObservableUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = B6850CDB2DB443FE0081097F /* ObservableUIKit */; };
+		B6850CDF2DB444140081097F /* ObservableUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = B6850CDE2DB444140081097F /* ObservableUIKit */; };
+		B6850CE22DB4C16D0081097F /* ObservableUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = B6850CE12DB4C16D0081097F /* ObservableUIKit */; };
+		B6850CE52DB4C2470081097F /* ObservableUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = B6850CE42DB4C2470081097F /* ObservableUIKit */; };
 		B6CB13E42ACE9E5E00F0D638 /* ObservableUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = B6CB13E32ACE9E5E00F0D638 /* ObservableUIKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B6CB13CA2ACE966D00F0D638 /* ObservableUIKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObservableUIKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B6CB13CD2ACE966D00F0D638 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B6CB13CF2ACE966D00F0D638 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B6CB13D12ACE966D00F0D638 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B6CB13D62ACE966E00F0D638 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B6CB13D92ACE966E00F0D638 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		B6CB13DB2ACE966E00F0D638 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B6CB13E12ACE96A700F0D638 /* ObservableUIKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ObservableUIKit; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B6A8F1822DB4C65B007D6810 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B6CB13C92ACE966D00F0D638 /* ObservableUIKitDemo */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		B6A8F17B2DB4C65B007D6810 /* ObservableUIKitDemo */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B6A8F1822DB4C65B007D6810 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ObservableUIKitDemo; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		B6CB13C72ACE966D00F0D638 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6850CE52DB4C2470081097F /* ObservableUIKit in Frameworks */,
+				B6850CDC2DB443FE0081097F /* ObservableUIKit in Frameworks */,
+				B6850CDF2DB444140081097F /* ObservableUIKit in Frameworks */,
+				B6850CE22DB4C16D0081097F /* ObservableUIKit in Frameworks */,
 				B6CB13E42ACE9E5E00F0D638 /* ObservableUIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -41,8 +51,7 @@
 		B6CB13C12ACE966D00F0D638 = {
 			isa = PBXGroup;
 			children = (
-				B6CB13E12ACE96A700F0D638 /* ObservableUIKit */,
-				B6CB13CC2ACE966D00F0D638 /* ObservableUIKitDemo */,
+				B6A8F17B2DB4C65B007D6810 /* ObservableUIKitDemo */,
 				B6CB13CB2ACE966D00F0D638 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,19 +62,6 @@
 				B6CB13CA2ACE966D00F0D638 /* ObservableUIKitDemo.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		B6CB13CC2ACE966D00F0D638 /* ObservableUIKitDemo */ = {
-			isa = PBXGroup;
-			children = (
-				B6CB13CD2ACE966D00F0D638 /* AppDelegate.swift */,
-				B6CB13CF2ACE966D00F0D638 /* SceneDelegate.swift */,
-				B6CB13D12ACE966D00F0D638 /* ViewController.swift */,
-				B6CB13D62ACE966E00F0D638 /* Assets.xcassets */,
-				B6CB13D82ACE966E00F0D638 /* LaunchScreen.storyboard */,
-				B6CB13DB2ACE966E00F0D638 /* Info.plist */,
-			);
-			path = ObservableUIKitDemo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,9 +79,16 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				B6A8F17B2DB4C65B007D6810 /* ObservableUIKitDemo */,
+			);
 			name = ObservableUIKitDemo;
 			packageProductDependencies = (
 				B6CB13E32ACE9E5E00F0D638 /* ObservableUIKit */,
+				B6850CDB2DB443FE0081097F /* ObservableUIKit */,
+				B6850CDE2DB444140081097F /* ObservableUIKit */,
+				B6850CE12DB4C16D0081097F /* ObservableUIKit */,
+				B6850CE42DB4C2470081097F /* ObservableUIKit */,
 			);
 			productName = ObservableUIKitDemo;
 			productReference = B6CB13CA2ACE966D00F0D638 /* ObservableUIKitDemo.app */;
@@ -116,7 +119,7 @@
 			);
 			mainGroup = B6CB13C12ACE966D00F0D638;
 			packageReferences = (
-				B6CB13E22ACE9E5E00F0D638 /* XCLocalSwiftPackageReference ".." */,
+				B6850CE32DB4C2470081097F /* XCLocalSwiftPackageReference "../../ObservableUIKit" */,
 			);
 			productRefGroup = B6CB13CB2ACE966D00F0D638 /* Products */;
 			projectDirPath = "";
@@ -132,8 +135,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6CB13DA2ACE966E00F0D638 /* LaunchScreen.storyboard in Resources */,
-				B6CB13D72ACE966E00F0D638 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,24 +145,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6CB13D22ACE966D00F0D638 /* ViewController.swift in Sources */,
-				B6CB13CE2ACE966D00F0D638 /* AppDelegate.swift in Sources */,
-				B6CB13D02ACE966D00F0D638 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		B6CB13D82ACE966E00F0D638 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B6CB13D92ACE966E00F0D638 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B6CB13DC2ACE966E00F0D638 /* Debug */ = {
@@ -361,13 +348,29 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		B6CB13E22ACE9E5E00F0D638 /* XCLocalSwiftPackageReference ".." */ = {
+		B6850CE32DB4C2470081097F /* XCLocalSwiftPackageReference "../../ObservableUIKit" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ..;
+			relativePath = ../../ObservableUIKit;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B6850CDB2DB443FE0081097F /* ObservableUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ObservableUIKit;
+		};
+		B6850CDE2DB444140081097F /* ObservableUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ObservableUIKit;
+		};
+		B6850CE12DB4C16D0081097F /* ObservableUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ObservableUIKit;
+		};
+		B6850CE42DB4C2470081097F /* ObservableUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ObservableUIKit;
+		};
 		B6CB13E32ACE9E5E00F0D638 /* ObservableUIKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ObservableUIKit;

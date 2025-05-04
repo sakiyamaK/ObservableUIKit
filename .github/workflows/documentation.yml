@@ -45,7 +45,6 @@ jobs:
       - name: Generate Documentation for Static Hosting
         run: |
           swift package \
-            -Xswiftc -sdk -Xswiftc $(xcrun --sdk iphoneos --show-sdk-path) \
             --allow-writing-to-directory ./docs \
             generate-documentation --target ObservableUIKit \
             --disable-indexing \

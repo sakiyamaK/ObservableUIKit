@@ -1,6 +1,6 @@
 rm -rf ./docs
 
-xcrun docc convert ./ObservableUIKit.docc \
+xcrun docc convert ./Documentation.docc \
   --output-path ./docs \
   --transform-for-static-hosting \
   --hosting-base-path ObservableUIKit

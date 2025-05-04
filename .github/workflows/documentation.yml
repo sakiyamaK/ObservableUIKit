@@ -31,6 +31,8 @@ jobs:
         uses: actions/checkout@v4
 
       # 2. Swift環境をセットアップ (Xcodeのバージョンを指定すると安定する場合あり)
+      - name: Check /Applications directory content
+        run: ls -l /Applications # Xcodeのバージョンを確認
       - name: Select Xcode        
         run: sudo xcode-select -s /Applications/Xcode_16.3.app/Contents/Developer # 必要に応じてXcodeのバージョンを調整
       - name: Setup Swift Environment

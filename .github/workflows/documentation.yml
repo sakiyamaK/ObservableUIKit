@@ -44,18 +44,10 @@ jobs:
       # 3. ドキュメントをビルドし、静的サイトとして生成
       - name: Generate Documentation for Static Hosting
         run: |
-          swift package \
-            --allow-writing-to-directory ./docs \
-            generate-documentation --target ObservableUIKit \
-            --disable-indexing \
-            --transform-for-static-hosting \
-            --hosting-base-path ObservableUIKit \
-            --output-path ./docs
-        # --target: あなたのライブラリターゲット名を指定 (例: ObservableUIKit)
-        # --disable-indexing: GitHub Pagesでは検索インデックスが不要な場合が多い
-        # --transform-for-static-hosting: 静的ホスティング用に変換
-        # --hosting-base-path: GitHub PagesのURLが https://<username>.github.io/<repository-name>/ の場合、リポジトリ名を指定
-        # --output-path: 生成されたWebサイトファイルが出力される場所
+         xcodebuild docbuild -scheme ObservableUIKit \
+            -project ObservableUIKit.xcodeproj \
+            -derivedDataPath ../docbuild-derivedData \
+            OTHER_DOCC_FLAGS="--transform-for-static-hosting --hosting-base-path ObservableUIKit --output-path $(pwd)/docs"
 
       # 4. GitHub Pages アーティファクトをアップロード
       - name: Upload GitHub Pages artifact

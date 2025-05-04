@@ -1,8 +1,8 @@
 rm -rf ./docs
 
-xcrun docc convert ./Documentation.docc \
-  --output-path ./docs \
-  --transform-for-static-hosting \
-  --hosting-base-path ObservableUIKit
+xcrun docc process-archive transform-for-static-hosting \
+    ObservableUIKit.doccarchive \
+    --output-path docs/ \
+    --hosting-base-path ObservableUIKit/
 
 touch ./docs/.nojekyll

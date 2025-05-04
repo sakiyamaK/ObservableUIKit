@@ -1,0 +1,16 @@
+@Tutorials(name: "tutorial") {
+    @Intro(title: "Tutorial of ObservableUIKit") {
+        
+        ObservationをUIKitでシンプルに扱えるようにするライブラリのチュートリアルです
+        
+        @Image(source: "demo", alt: "demo")
+    }
+    
+    @Chapter(name: "データの用意からViewの監視まで") {
+        
+        
+        @Image(source: "demo", alt: "demo")
+        
+        @TutorialReference(tutorial: "doc:Chapter1")
+    }
+}

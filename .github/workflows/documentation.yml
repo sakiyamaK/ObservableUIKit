@@ -33,6 +33,7 @@ jobs:
       # 2. Swift環境をセットアップ (Xcodeのバージョンを指定すると安定する場合あり)
       - name: Check /Applications directory content
         run: ls -l /Applications # Xcodeのバージョンを確認
+
       - name: Select Xcode        
         run: sudo xcode-select -s /Applications/Xcode_16.2.app # 必要に応じてXcodeのバージョンを調整
       # - name: Setup Swift Environment
@@ -43,7 +44,9 @@ jobs:
       # 3. ドキュメントをビルドし、静的サイトとして生成
       - name: Generate Documentation for Static Hosting
         run: |
-          swift package --allow-writing-to-directory ./docs \
+          swift package \
+            -Xswiftc -sdk -Xswiftc $(xcrun --sdk iphoneos --show-sdk-path) \
+            --allow-writing-to-directory ./docs \
             generate-documentation --target ObservableUIKit \
             --disable-indexing \
             --transform-for-static-hosting \

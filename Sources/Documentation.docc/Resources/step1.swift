@@ -1,5 +1,4 @@
 import UIKit
-import ObservableUIKit
 
 // 監視対象のデータ
 @Observable

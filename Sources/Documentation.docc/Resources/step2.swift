@@ -2,6 +2,7 @@ import UIKit
 import ObservableUIKit
 
 final class ViewController: UIViewController {
+
     // 監視対象のデータ
     private var testData: TestData
     // 監視対象のプリミティブ型

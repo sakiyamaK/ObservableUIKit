@@ -16,17 +16,17 @@
             @Step {
                 監視対象となるデータをObservableで用意します
                 
-                @Code(name: "step1.swift", file: "step1.swift")
+                @Code(name: "TestData.swift", file: "step1.swift")
             }
             @Step {
                 TestDataとプリミティブなbool値をもつViewControllerを用意します
 
-                @Code(name: "step2.swift", file: "step2.swift")
+                @Code(name: "ViewController.swift", file: "step2.swift")
             }
             @Step {
                 TestDataとプリミティブなbool値を監視してViewを更新させます
 
-                @Code(name: "step3.swift", file: "step3.swift")
+                @Code(name: "ViewController.swift", file: "step3.swift")
             }
         }
     }

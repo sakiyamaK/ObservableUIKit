@@ -27,7 +27,7 @@ testView.tracking {[weak self] in
 ```
 
 
-## QUick Start
+## Quick Start
 
 ```swift
 import UIKit

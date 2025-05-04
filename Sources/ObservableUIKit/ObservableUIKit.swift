@@ -1,5 +1,5 @@
 //
-//  ObservableNSObject.swift
+//  ObservableUIKit.swift
 //  ObservableUIKit
 //
 //  Created by sakiyamaK on 2024/12/27.

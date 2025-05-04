@@ -107,7 +107,6 @@ final class ViewController: UIViewController {
 
 * [Installation](#installation)
   * [Swift Package Manager](#swift-package-manager)
-  * [CocoaPods](#cocoapods)
 
 ## Installation
 
@@ -117,7 +116,7 @@ Once you have your Swift package set up, adding ObservableUIKit as a dependency 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/sakiyamaK/ObservableUIKit", .upToNextMajor(from: "0.0.3"))
+    .package(url: "https://github.com/sakiyamaK/ObservableUIKit", .upToNextMajor(from: "3.0.0"))
 ]
 ```
 
@@ -126,11 +125,3 @@ To install ObservableUIKit package via Xcode
 Go to File -> Swift Packages -> Add Package Dependency...
 Then search for https://github.com/sakiyamaK/ObservableUIKit
 And choose the version you want
-
-### CocoaPods
-
-~~[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate ObservableUIKit into your Xcode project using CocoaPods, specify it in your `Podfile`:~~
-
-~~```ruby~~
-~~pod 'SKObservableUIKit'~~
-~~```~~

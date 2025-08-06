@@ -60,6 +60,59 @@ public extension ObservableUIKit {
         return self
     }
 
+    /// 指定されたクロージャが返す値を監視し、変更があるたびに指定されたキーパスのプロパティを更新します。
+    ///
+    /// - Parameters:
+    ///   - useInitialValue: `true` の場合、監視開始時に一度 `apply` を評価し、結果が非nilであれば
+    ///     即座にキーパスのプロパティを更新します。デフォルトは `true` です。
+    ///   - shouldStop: 監視を停止する条件を判定するクロージャ。`true` を返すと、それ以降の監視を停止します。
+    ///     デフォルトでは常に `false` を返し、監視を継続します。
+    ///   - apply: 監視対象の値 `V` を返すクロージャ。このクロージャ内でアクセスされる観測可能なプロパティが
+    ///     追跡対象となります。
+    ///   - keyPath: `apply` が返す値で更新される、`self` のプロパティへの書き込み可能なキーパス。
+    ///
+    /// - Returns: メソッドチェーンを可能にするために `self` を返します。
+    @MainActor
+    @discardableResult
+    func tracking<V>(
+        useInitialValue: Bool = true,
+        shouldStop: @escaping (@MainActor () -> Bool) = { false },
+        _ apply: @escaping @MainActor () -> V?,
+        to keyPath: WritableKeyPath<Self, V>
+    ) -> Self {
+
+        self.tracking(useInitialValue: useInitialValue, shouldStop: shouldStop, apply) { _self, value in
+            var _self = _self
+            _self[keyPath: keyPath] = value
+        }
+
+        return self
+    }
+
+    /// 指定されたキーパスのプロパティを、クロージャが返す値で更新します。
+    /// `tracking(useInitialValue:shouldStop:_:to:)` のシンタックスシュガーです。
+    ///
+    /// - Parameters:
+    ///   - keyPath: 更新される、`self` のプロパティへの書き込み可能なキーパス。
+    ///   - useInitialValue: `true` の場合、監視開始時に一度 `apply` を評価し、結果が非nilであれば
+    ///     即座にキーパスのプロパティを更新します。デフォルトは `true` です。
+    ///   - shouldStop: 監視を停止する条件を判定するクロージャ。`true` を返すと、それ以降の監視を停止します。
+    ///     デフォルトでは常に `false` を返し、監視を継続します。
+    ///   - apply: 監視対象の値 `V` を返すクロージャ。このクロージャ内でアクセスされる観測可能なプロパティが
+    ///     追跡対象となります。
+    ///
+    /// - Returns: メソッドチェーンを可能にするために `self` を返します。
+    @MainActor
+    @discardableResult
+    func keyPath<V>(
+        _ keyPath: WritableKeyPath<Self, V>,
+        useInitialValue: Bool = true,
+        shouldStop: @escaping (@MainActor () -> Bool) = { false },
+        _ apply: @escaping @MainActor () -> V?
+    ) -> Self {
+        self.tracking(useInitialValue: useInitialValue, shouldStop: shouldStop, apply, to: keyPath)
+    }
+
     /// 指定されたクロージャが返すオプショナル値を監視し、変更があるたびにコールバックを実行します。
     /// これは tracking(useInitialValue:_ apply:sendOptional:shouldStop:_:onChange:)のオプショナル値対応版です。
     ///
@@ -108,6 +161,59 @@ public extension ObservableUIKit {
             }
         })
         return self
+    }
+
+    /// 指定されたクロージャが返すオプショナル値を監視し、変更があるたびに指定されたキーパスのプロパティを更新します。
+    ///
+    /// - Parameters:
+    ///   - useInitialValue: `true` の場合、監視開始時に一度 `apply` を評価し、
+    ///     即座にキーパスのプロパティを更新します。デフォルトは `true` です。
+    ///   - shouldStop: 監視を停止する条件を判定するクロージャ。`true` を返すと、それ以降の監視を停止します。
+    ///     デフォルトでは常に `false` を返し、監視を継続します。
+    ///   - apply: 監視対象の値 `V` を返すクロージャ。このクロージャ内でアクセスされる観測可能なプロパティが
+    ///     追跡対象となります。
+    ///   - keyPath: `apply` が返す値で更新される、`self` のプロパティへの書き込み可能なキーパス。
+    ///
+    /// - Returns: メソッドチェーンを可能にするために `self` を返します。
+    @MainActor
+    @discardableResult
+    func trackingOptional<V>(
+        useInitialValue: Bool = true,
+        shouldStop: @escaping (@MainActor () -> Bool) = { false },
+        _ apply: @escaping @MainActor () -> V?,
+        to keyPath: WritableKeyPath<Self, V?>
+    ) -> Self {
+
+        self.trackingOptional(useInitialValue: useInitialValue, shouldStop: shouldStop, apply) { _self, value in
+            var _self = _self
+            _self[keyPath: keyPath] = value
+        }
+
+        return self
+    }
+
+    /// 指定されたキーパスのプロパティを、クロージャが返すオプショナル値で更新します。
+    /// `trackingOptional(useInitialValue:shouldStop:_:to:)` のシンタックスシュガーです。
+    ///
+    /// - Parameters:
+    ///   - keyPath: 更新される、`self` のプロパティへの書き込み可能なキーパス。
+    ///   - useInitialValue: `true` の場合、監視開始時に一度 `apply` を評価し、
+    ///     即座にキーパスのプロパティを更新します。デフォルトは `true` です。
+    ///   - shouldStop: 監視を停止する条件を判定するクロージャ。`true` を返すと、それ以降の監視を停止します。
+    ///     デフォルトでは常に `false` を返し、監視を継続します。
+    ///   - apply: 監視対象の値 `V` を返すクロージャ。このクロージャ内でアクセスされる観測可能なプロパティが
+    ///     追跡対象となります。
+    ///
+    /// - Returns: メソッドチェーンを可能にするために `self` を返します。
+    @MainActor
+    @discardableResult
+    func keyPathOptional<V>(
+        _ keyPath: WritableKeyPath<Self, V?>,
+        useInitialValue: Bool = true,
+        shouldStop: @escaping (@MainActor () -> Bool) = { false },
+        _ apply: @escaping @MainActor () -> V?
+    ) -> Self {
+        self.trackingOptional(useInitialValue: useInitialValue, shouldStop: shouldStop, apply, to: keyPath)
     }
 }
 

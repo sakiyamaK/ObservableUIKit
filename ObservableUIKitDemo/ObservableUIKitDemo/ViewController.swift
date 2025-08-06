@@ -80,14 +80,10 @@ final class ViewController: UIViewController {
         }
 
         // UILabelの各パラメータを監視
-        testLabel.tracking {[weak self] in
+        testLabel.keyPath(\.text) {[weak self] in
             self?.testData.title ?? "default"
-        } onChange: { label, title in
-            label.text = title
-        }.tracking {[weak self] in
+        }.keyPath(\.textColor) {[weak self] in
             self?.testData.color
-        } onChange: { label, textColor in
-            label.textColor = textColor
         }
 
         // UIActivityIndicatorのパラメータを監視

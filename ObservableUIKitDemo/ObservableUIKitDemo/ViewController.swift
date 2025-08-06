@@ -19,7 +19,7 @@ final class TestData {
 
 final class ViewController: UIViewController {
     deinit {
-        print("deinit")
+        print("ViewController deinit")
     }
 
     // 監視対象のデータ
@@ -138,9 +138,15 @@ extension ViewController {
                     title: "next", handler: {[weak self] _ in
                         self!.navigationController?
                             .pushViewController(
-                                ViewController(testData: TestData()),
+                                EnvironmentViewController(),
                                 animated: true
                             )
+//                        self!.navigationController?
+//                            .pushViewController(
+//                                ViewController(testData: TestData()),
+//                                animated: true
+//                            )
+
                     }
                 )
             )

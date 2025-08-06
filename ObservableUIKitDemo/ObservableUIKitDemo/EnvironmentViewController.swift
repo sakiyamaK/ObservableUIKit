@@ -16,6 +16,9 @@ extension EnvironmentValues {
 
 // 環境変数から値を取得するカスタムビュー
 final class CustomView: UIView {
+    deinit {
+        print("CustomView deinit")
+    }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -50,7 +53,7 @@ final class CustomView: UIView {
 
 final class EnvironmentViewController: UIViewController {
     deinit {
-        print("deinit")
+        print("EnvironmentViewController deinit")
     }
     // 環境変数から値を取得するLabel
     private let label: UILabel = {

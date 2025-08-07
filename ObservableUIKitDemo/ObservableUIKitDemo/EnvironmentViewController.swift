@@ -101,7 +101,7 @@ final class EnvironmentViewController: UIViewController {
     }
 
     // 環境変数に登録する値
-    @UIKitState private var fontColorValue: UIColor = .black
+    @UIKitEnvironment private var fontColorValue: UIColor = .black
 
     private func setValue() {
 
@@ -110,7 +110,7 @@ final class EnvironmentViewController: UIViewController {
 
         // 親Viewに環境変数の初期値をセット
         stackView
-            .environment(\.fontColor, self._fontColorValue)
+            .environment(\.fontColor, self.$fontColorValue)
 
         // 環境変数から値を読み込む
         label.read(environment: \.fontColor, to: \.textColor)

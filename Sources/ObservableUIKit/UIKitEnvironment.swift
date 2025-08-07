@@ -8,6 +8,24 @@
 import UIKit
 import SwiftUICore
 
+@propertyWrapper
+@MainActor
+public final class UIKitEnvironment<Value> {
+    public var wrappedValue: Value {
+        didSet {
+            projectedValue.wrappedValue = wrappedValue
+        }
+    }
+    public lazy var projectedValue: UIKitState<Value> = {
+        .init(wrappedValue: self.wrappedValue)
+    }()
+
+    public init(wrappedValue: Value) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+
 public protocol ReadEnvironmentable {}
 public extension ReadEnvironmentable where Self: UIView {
     @MainActor @discardableResult

@@ -19,21 +19,25 @@ final class CustomView: UIView {
     deinit {
         print("CustomView deinit")
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     private let label: UILabel = {
         let label = UILabel(frame: .null)
         label.text = "カスタムビューの中の文字列だよ"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
     init () {
         super.init(frame: .null)
 
         layout()
         setValue()
     }
+
     private func layout() {
         self.addSubview(label)
         NSLayoutConstraint.activate([
@@ -43,7 +47,6 @@ final class CustomView: UIView {
             self.bottomAnchor.constraint(equalTo: label.bottomAnchor),
         ])
     }
-
 
     private func setValue() {
         // 環境変数から値を取得
@@ -110,8 +113,7 @@ final class EnvironmentViewController: UIViewController {
             .environment(\.fontColor, self._fontColorValue)
 
         // 環境変数から値を読み込む
-        label
-            .read(environment: \.fontColor, to: \.textColor)
+        label.read(environment: \.fontColor, to: \.textColor)
     }
     // 監視対象のデータを更新
     private func update() {

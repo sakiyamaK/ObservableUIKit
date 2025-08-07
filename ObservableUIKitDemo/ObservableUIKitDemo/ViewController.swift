@@ -19,7 +19,7 @@ final class TestData {
 
 final class ViewController: UIViewController {
     deinit {
-        print("deinit")
+        print("ViewController deinit")
     }
 
     // 監視対象のデータ
@@ -65,19 +65,18 @@ final class ViewController: UIViewController {
 
     func track() {
         // UIViewの各パラメータを監視
-        testView.tracking {[weak self] in
-            self?.testData.cornerRadius
-        } onChange: { view, cornerRadius in
-            view.layer.cornerRadius = cornerRadius
-        }.tracking {[weak self] in
+        testView.tracking(
+            {[weak self] in
+                self?.testData.cornerRadius
+            },
+            to: \.layer.cornerRadius
+        ).tracking {[weak self] in
             self?.testData.rotate
         } onChange: { view, angle in
             view.transform = .init(rotationAngle: angle)
-        }.trackingOptional {[weak self] in
+        }.trackingOptional({[weak self] in
             self?.testData.color
-        } onChange: { view, color in
-            view.backgroundColor = color
-        }
+        }, to: \.backgroundColor)
 
         // UILabelの各パラメータを監視
         testLabel.keyPath(\.text) {[weak self] in
@@ -138,9 +137,15 @@ extension ViewController {
                     title: "next", handler: {[weak self] _ in
                         self!.navigationController?
                             .pushViewController(
-                                ViewController(testData: TestData()),
+                                EnvironmentViewController(),
                                 animated: true
                             )
+//                        self!.navigationController?
+//                            .pushViewController(
+//                                ViewController(testData: TestData()),
+//                                animated: true
+//                            )
+
                     }
                 )
             )

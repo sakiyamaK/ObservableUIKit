@@ -8,24 +8,6 @@
 import UIKit
 import SwiftUICore
 
-@propertyWrapper
-@MainActor
-public final class UIKitEnvironment<Value> {
-    public var wrappedValue: Value {
-        didSet {
-            projectedValue.wrappedValue = wrappedValue
-        }
-    }
-    public lazy var projectedValue: UIKitState<Value> = {
-        .init(wrappedValue: self.wrappedValue)
-    }()
-
-    public init(wrappedValue: Value) {
-        self.wrappedValue = wrappedValue
-    }
-}
-
-
 public protocol ReadEnvironmentable {}
 public extension ReadEnvironmentable where Self: UIView {
     @MainActor @discardableResult
@@ -37,7 +19,7 @@ public extension ReadEnvironmentable where Self: UIView {
     }
 
     @MainActor @discardableResult
-    func read<V>(environment keyPath: WritableKeyPath<EnvironmentValues, V>, to  parameterKeyPath: WritableKeyPath<Self, V>) -> Self {
+    func read<V>(environment keyPath: WritableKeyPath<EnvironmentValues, V>, to parameterKeyPath: WritableKeyPath<Self, V>) -> Self {
         self.addSubview(
             HelperReadEnvironmentView(keyPath: keyPath, parameterKeyPath: parameterKeyPath)
         )
@@ -48,13 +30,35 @@ extension UIView: ReadEnvironmentable {}
 
 public extension UIView {
     @discardableResult
-    func environment<V>(_ keyPath: WritableKeyPath<EnvironmentValues, V>, _ value: UIKitState<V>) -> Self {
+    func environment<V>(_ keyPath: WritableKeyPath<EnvironmentValues, V>, state: UIKitState<V>) -> Self {
         var newValues = self.environmentValues
-        newValues[ObjectIdentifier(keyPath)] = value
+        newValues[ObjectIdentifier(keyPath)] = state
         self.environmentValues = newValues
         return self
     }
+
+    @_disfavoredOverload
+    @discardableResult
+    func environment<V>(_ keyPath: WritableKeyPath<EnvironmentValues, V>, value: V) -> Self {
+        environment(keyPath, state: UIKitState(wrappedValue: value))
+    }
 }
+
+public extension UIViewController {
+    @discardableResult
+    func environment<V>(_ keyPath: WritableKeyPath<EnvironmentValues, V>, state: UIKitState<V>) -> Self {
+        var newValues = self.view.environmentValues
+        newValues[ObjectIdentifier(keyPath)] = state
+        self.view.environmentValues = newValues
+        return self
+    }
+
+    @discardableResult
+    func environment<V>(_ keyPath: WritableKeyPath<EnvironmentValues, V>, value: V) -> Self {
+        environment(keyPath, state: UIKitState(wrappedValue: value))
+    }
+}
+
 
 fileprivate extension UIView {
     private struct AssociatedKeys {

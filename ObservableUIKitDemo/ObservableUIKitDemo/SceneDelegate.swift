@@ -17,7 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        
+            .environment(\.colorScheme, value: .dark)
+
         let vc = UINavigationController(
             rootViewController: ViewController(
                 testData: TestData()

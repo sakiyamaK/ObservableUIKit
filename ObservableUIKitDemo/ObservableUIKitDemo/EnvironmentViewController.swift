@@ -17,6 +17,13 @@ extension EnvironmentValues {
 // 環境変数から値を取得するカスタムビュー
 final class CustomView: UIView {
 
+    deinit {
+        print("CustomView deinit")
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     private let label: UILabel = {
         let label = UILabel(frame: .null)
         label.text = "カスタムビューの中の文字列だよ"
@@ -24,17 +31,8 @@ final class CustomView: UIView {
         return label
     }()
 
-    private func setValue() {
-        // 環境変数から値を取得
-        self.label.read(environment: \.fontColor, to: \.textColor)
-    }
-
-    deinit {
-        print("CustomView deinit")
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    // 環境変数の値をパラメータと連結
+    @UIKitEnvironment(\.fontColor) var fontColorValue
 
     init () {
         super.init(frame: .null)
@@ -56,30 +54,14 @@ final class CustomView: UIView {
         self.layer.borderColor = UIColor.black.cgColor
         self.layer.borderWidth = 1
     }
+
+    private func setValue() {
+        // 環境変数と連結したパラメータから値を取得
+        self.label.tracking($fontColorValue, to: \.textColor)
+    }
 }
 
 final class EnvironmentViewController: UIViewController {
-
-    // 環境変数に登録する値
-    @UIKitState private var fontColorValue: UIColor = EnvironmentValues().fontColor
-    @UIKitState private var colorScheme: ColorScheme = EnvironmentValues().colorScheme
-
-    private func setValue() {
-
-        // 環境変数とUIKitState属性のパラメータを連結
-        // @UIKitState var fontColorValue なら _fontColorValue と指定することに注意
-        self.view
-            .environment(\.fontColor, state: _fontColorValue)
-            .environment(\.colorScheme, state: _colorScheme)
-
-        // 環境変数から値を読み込む
-        // クロージャ形式で自由に記述できる
-        self.view.read(environment: \.colorScheme) { view, colorScheme in
-            view.backgroundColor = colorScheme == .dark ? .darkGray : .systemBackground
-        }
-        // 値を代入するだけならkeyPathで指定できる
-        self.label.read(environment: \.fontColor, to: \.textColor)
-    }
 
     deinit {
         print("EnvironmentViewController deinit")
@@ -91,20 +73,17 @@ final class EnvironmentViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
+    private let customView: CustomView = {
+        let customView = CustomView()
+        customView.translatesAutoresizingMaskIntoConstraints = false
+        return customView
+    }()
     private let label: UILabel = {
         let label = UILabel(frame: .null)
         label.text = "EnvironmentViewControllerの中の文字列だよ"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
-    // 内部のLabelが環境変数から値を取得するCustomView
-    private let customView: CustomView = {
-        let customView = CustomView()
-        customView.translatesAutoresizingMaskIntoConstraints = false
-        return customView
-    }()
-
     private lazy var fontColorChangeButton: UIButton = {
         UIButton(configuration: .plain(), primaryAction: .init(title: "タップして文字色を変える", handler: {[weak self] _ in
 
@@ -120,14 +99,6 @@ final class EnvironmentViewController: UIViewController {
             }
         }))
     }()
-
-    private lazy var colorSchemeChangeButton: UIButton = {
-        UIButton(configuration: .plain(), primaryAction: .init(title: "タップしてColor Schemeを変える", handler: {[weak self] _ in
-            // 監視対象のデータを更新
-            self!.colorScheme = self!.colorScheme == .light ? .dark : .light
-        }))
-    }()
-
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -135,6 +106,12 @@ final class EnvironmentViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
+
+    // 環境変数に登録するパラメータ
+    @UIKitState private var fontColorValue = EnvironmentValues().fontColor
+    // 環境変数の値をパラメータと連結
+    @UIKitEnvironment(\.colorScheme) var colorSchemeValue
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -153,15 +130,30 @@ final class EnvironmentViewController: UIViewController {
         stackView.addArrangedSubview(customView)
         stackView.setCustomSpacing(30, after: customView)
         stackView.addArrangedSubview(fontColorChangeButton)
-        stackView.addArrangedSubview(colorSchemeChangeButton)
     }
 
+    private func setValue() {
+        self.view
+            // 環境変数と連動したパラメータから値を取得
+            .tracking($colorSchemeValue) { view, colorScheme in
+                if colorScheme == .dark {
+                    view.backgroundColor = .systemGray
+                } else {
+                    view.backgroundColor = .systemBackground
+                }
+            }
+            // 環境変数にパラメータを登録
+            .environment(\.fontColor, state: _fontColorValue)
 
+        // 環境変数と連動したパラメータから値を取得
+        self.label
+            .tracking($fontColorValue, to: \.textColor)
+
+    }
 }
 
 
 #Preview {
     EnvironmentViewController()
-//        .environment(\.fontColor, .systemBlue)
-//        .environment(\.colorScheme, value: .light)
+        .environment(\.colorScheme, value: .dark)
 }

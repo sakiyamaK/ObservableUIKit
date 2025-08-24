@@ -11,17 +11,16 @@ import Foundation
 @Observable
 @MainActor
 public final class UIKitState<Value> {
-    public private(set) var value: Value
-    public var wrappedValue: Value {
-        get {
-            value
-        }
-        set {
-            value = newValue
-        }
+
+    public var wrappedValue: Value
+    public init (wrappedValue: Value) {
+        self.wrappedValue = wrappedValue
     }
 
-    public init (wrappedValue: Value) {
-        self.value = wrappedValue
+    public var projectedValue: (@MainActor () -> Value) {
+        method
+    }
+    private func method() -> Value {
+        wrappedValue
     }
 }

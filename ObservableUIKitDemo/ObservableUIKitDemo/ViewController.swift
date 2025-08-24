@@ -23,7 +23,7 @@ final class ViewController: UIViewController {
     }
 
     // 監視対象のデータ
-    private var testData: TestData
+    @UIKitState private var testData: TestData
     // 監視対象のプリミティブ型
     @UIKitState private var isLoading: Bool = true
 
@@ -65,12 +65,10 @@ final class ViewController: UIViewController {
 
     func track() {
         // UIViewの各パラメータを監視
-        testView.tracking(
-            {[weak self] in
-                self?.testData.cornerRadius
-            },
-            to: \.layer.cornerRadius
-        ).tracking {[weak self] in
+        testView.tracking({[weak self] in
+            self?.testData.cornerRadius
+        }, to: \.layer.cornerRadius)
+        .tracking {[weak self] in
             self?.testData.rotate
         } onChange: { view, angle in
             view.transform = .init(rotationAngle: angle)
@@ -86,9 +84,7 @@ final class ViewController: UIViewController {
         }
 
         // UIActivityIndicatorのパラメータを監視
-        indicator.tracking {[weak self] in
-            self!.isLoading
-        } onChange: { indicator, loading in
+        indicator.tracking($isLoading) { indicator, loading in
             if loading {
                 indicator.startAnimating()
             } else {

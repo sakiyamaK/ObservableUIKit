@@ -12,16 +12,16 @@ import SwiftUI
 public protocol ReadEnvironmentable { }
 public extension ReadEnvironmentable where Self: UIView {
     @discardableResult
-    func environment<V>(_ keyPath: WritableKeyPath<EnvironmentValues, V>, state: UIKitState<V>) -> Self {
+    func environment<Value>(_ keyPath: WritableKeyPath<EnvironmentValues, Value>, _ apply: @escaping @MainActor () -> Value) -> Self {
         var newValues = self.environmentValues
-        newValues[ObjectIdentifier(keyPath)] = state
+        newValues[ObjectIdentifier(keyPath)] = apply
         self.environmentValues = newValues
         return self
     }
 
     @discardableResult
-    func environment<V>(_ keyPath: WritableKeyPath<EnvironmentValues, V>, value: V) -> Self {
-        environment(keyPath, state: UIKitState(wrappedValue: value))
+    func environment<Value>(_ keyPath: WritableKeyPath<EnvironmentValues, Value>, value: Value) -> Self {
+        environment(keyPath, { @MainActor in value })
     }
 
     @MainActor

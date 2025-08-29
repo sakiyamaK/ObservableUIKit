@@ -22,13 +22,15 @@ extension UIView {
         }
     }
 
-    func readEnvironment<V>(_ keyPath: WritableKeyPath<EnvironmentValues, V>) -> UIKitState<V> {
-        if let value = self.environmentValues[ObjectIdentifier(keyPath)] as? UIKitState<V> {
+    func readEnvironment<Value>(_ keyPath: WritableKeyPath<EnvironmentValues, Value>) -> (@MainActor () -> Value) {
+        if let value = self.environmentValues[ObjectIdentifier(keyPath)] as? (@MainActor () -> Value) {
             value
         } else if let superview = self.superview {
             superview.readEnvironment(keyPath)
         } else {
-            UIKitState<V>(wrappedValue: EnvironmentValues()[keyPath: keyPath])
+            { @MainActor in
+                EnvironmentValues()[keyPath: keyPath]
+            }
         }
     }
 }
@@ -61,17 +63,13 @@ final class HelperReadEnvironmentView<Value, View: UIView>: UIView {
             return
         }
 
-        let state = superview.readEnvironment(keyPath)
+        let apply = superview.readEnvironment(keyPath)
 
         if let onChange {
-            superview.tracking({
-                state.wrappedValue
-            }, onChange: onChange)
+            superview.tracking(apply, onChange: onChange)
             removeFromSuperview()
         } else if let parameterKeyPath {
-            superview.tracking({
-                state.wrappedValue
-            }, to: parameterKeyPath)
+            superview.tracking(apply, to: parameterKeyPath)
             removeFromSuperview()
         }
     }

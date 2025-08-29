@@ -23,7 +23,6 @@ final class CustomView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
     private let label: UILabel = {
         let label = UILabel(frame: .null)
         label.text = "カスタムビューの中の文字列だよ"
@@ -112,7 +111,6 @@ final class EnvironmentViewController: UIViewController {
     // 環境変数の値をパラメータと連結
     @UIKitEnvironment(\.colorScheme) var colorSchemeValue
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
@@ -143,7 +141,7 @@ final class EnvironmentViewController: UIViewController {
                 }
             }
             // 環境変数にパラメータを登録
-            .environment(\.fontColor, state: _fontColorValue)
+            .environment(\.fontColor, $fontColorValue)
 
         // 環境変数と連動したパラメータから値を取得
         self.label
@@ -155,5 +153,5 @@ final class EnvironmentViewController: UIViewController {
 
 #Preview {
     EnvironmentViewController()
-        .environment(\.colorScheme, value: .dark)
+        .environment(\.colorScheme, value: .light)
 }

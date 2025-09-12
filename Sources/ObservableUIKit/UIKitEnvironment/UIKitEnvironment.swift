@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SwiftUICore
+import SwiftUI
 
 @MainActor
 @propertyWrapper public struct UIKitEnvironment<Value> {
